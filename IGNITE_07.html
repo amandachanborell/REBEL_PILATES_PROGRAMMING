@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ignite 07</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: sans-serif; background: #f5f0ea; }
+
+  .rp { max-width: 680px; margin: 0 auto; padding: 0.75rem; }
+
+  .rp-header { background: #fd5731; border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 0.75rem; }
+  .rp-header h1 { color: #eee7dd; font-size: clamp(22px, 5vw, 30px); font-weight: 500; margin: 0 0 1rem; letter-spacing: 2px; text-transform: uppercase; }
+  .rp-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rp-meta-item { background: rgba(238,231,221,0.1); border-radius: 8px; padding: 10px 12px; }
+  .rp-meta-label { color: rgba(238,231,221,0.5); font-size: clamp(11px, 2.5vw, 13px); text-transform: uppercase; letter-spacing: 1px; }
+  .rp-meta-value { color: #eee7dd; font-size: clamp(15px, 3.5vw, 17px); font-weight: 500; margin-top: 3px; }
+
+  .rp-video { margin-bottom: 0.75rem; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; }
+  .rp-video iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  .rp-keys { background: #eee7dd; border-radius: 10px; padding: 16px; margin-bottom: 0.75rem; }
+  .rp-keys-title { font-size: clamp(12px, 2.8vw, 14px); text-transform: uppercase; letter-spacing: 1px; color: #fd5731; font-weight: 700; margin-bottom: 12px; }
+  .rp-keys-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+  .rp-key-row { display: flex; gap: 10px; font-size: clamp(13px, 3vw, 15px); padding: 5px 0; border-bottom: 0.5px solid rgba(253,87,49,0.1); }
+  .rp-key-code { font-weight: 700; color: #fd5731; min-width: 50px; }
+  .rp-key-desc { color: #444; }
+
+  .rp-playlist { background: #eee7dd; border-left: 4px solid #fd5731; border-radius: 0 10px 10px 0; padding: 14px 16px; margin-bottom: 0.75rem; }
+  .rp-playlist-label { font-size: clamp(12px, 2.8vw, 14px); text-transform: uppercase; letter-spacing: 1px; color: #fd5731; font-weight: 500; margin-bottom: 6px; }
+  .rp-playlist-text { font-size: clamp(14px, 3.2vw, 16px); color: #444; line-height: 1.5; }
+
+  .rp-intro { background: #eee7dd; border-radius: 10px; padding: 16px; margin-bottom: 1.25rem; }
+  .rp-intro-label { font-size: clamp(12px, 2.8vw, 14px); text-transform: uppercase; letter-spacing: 1px; color: #fd5731; font-weight: 500; margin-bottom: 8px; }
+  .rp-intro-summary { font-size: clamp(14px, 3.2vw, 16px); color: #444; line-height: 1.65; }
+
+  .rp-block { margin-bottom: 1rem; border: 0.5px solid rgba(253,87,49,0.2); border-radius: 12px; overflow: hidden; }
+  .rp-block-header { background: #fd5731; padding: 12px 16px; display: grid; grid-template-columns: 1fr 100px; align-items: center; }
+  .rp-block-header.light { background: #e84a20; }
+  .rp-block-title { color: #eee7dd; font-size: clamp(14px, 3.2vw, 16px); font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; }
+  .rp-block-sub { color: rgba(238,231,221,0.6); font-size: clamp(12px, 2.8vw, 14px); margin-top: 3px; }
+  .rp-col-label { color: rgba(238,231,221,0.5); font-size: clamp(11px, 2.5vw, 13px); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+
+  .rp-body { display: grid; grid-template-columns: 1fr 100px; background: #fff; }
+  .rp-exercises { border-right: 0.5px solid rgba(253,87,49,0.12); }
+  .rp-exercise { padding: 13px 16px; border-bottom: 0.5px solid rgba(253,87,49,0.1); display: flex; align-items: center; min-height: 50px; }
+  .rp-exercise:last-child { border-bottom: none; }
+  .rp-exercise-name { font-size: clamp(14px, 3.2vw, 16px); color: #1a1a1a; line-height: 1.4; }
+  .rp-exercise-name.note { font-size: clamp(13px, 3vw, 15px); font-style: italic; color: #777; }
+
+  .rp-spring-col { background: #eee7dd; display: flex; align-items: center; justify-content: center; padding: 12px 8px; text-align: center; font-size: clamp(13px, 3vw, 15px); font-weight: 500; color: #fd5731; line-height: 1.4; }
+
+  .rp-repeat { background: #eee7dd; padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+  .rp-repeat-dot { width: 7px; height: 7px; background: #fd5731; border-radius: 50%; flex-shrink: 0; }
+  .rp-repeat-text { font-size: clamp(13px, 3vw, 15px); color: #fd5731; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="rp">
+
+  <div class="rp-header">
+    <h1>Ignite 07</h1>
+    <div class="rp-meta">
+      <div class="rp-meta-item"><div class="rp-meta-label">Class Length</div><div class="rp-meta-value">50 mins</div></div>
+      <div class="rp-meta-item"><div class="rp-meta-label">Format</div><div class="rp-meta-value">High 5 (see video)</div></div>
+      <div class="rp-meta-item"><div class="rp-meta-label">Props</div><div class="rp-meta-value">Box, Ball</div></div>
+      <div class="rp-meta-item"><div class="rp-meta-label">Timer</div><div class="rp-meta-value">Warm Up 30 secs / Work 60 secs</div></div>
+    </div>
+  </div>
+
+  <div class="rp-video">
+    <iframe src="https://www.youtube.com/embed/D3WhNcv-05w" allowfullscreen></iframe>
+  </div>
+
+  <div class="rp-keys">
+    <div class="rp-keys-title">Shortcut Keys</div>
+    <div class="rp-keys-grid">
+      <div class="rp-key-row"><span class="rp-key-code">(R)</span><span class="rp-key-desc">Right</span></div>
+      <div class="rp-key-row"><span class="rp-key-code">(L)</span><span class="rp-key-desc">Left</span></div>
+      <div class="rp-key-row"><span class="rp-key-code">FF</span><span class="rp-key-desc">Front Facing</span></div>
+      <div class="rp-key-row"><span class="rp-key-code">RF</span><span class="rp-key-desc">Reverse Facing</span></div>
+      <div class="rp-key-row"><span class="rp-key-code">SF</span><span class="rp-key-desc">Side Facing</span></div>
+      <div class="rp-key-row"><span class="rp-key-code">SA</span><span class="rp-key-desc">Single Arm</span></div>
+      <div class="rp-key-row"><span class="rp-key-code">SL</span><span class="rp-key-desc">Single Leg</span></div>
+    </div>
+  </div>
+
+  <div class="rp-playlist">
+    <div class="rp-playlist-label">Playlist Vibe</div>
+    <div class="rp-playlist-text">Upbeat, hard-hitting, euphoric. Min 125 bpm. Uplifting with a chill cool down.</div>
+  </div>
+
+  <div class="rp-intro">
+    <div class="rp-intro-label">Class Intro</div>
+    <div class="rp-intro-summary">Get ready for fiery 60-second intervals that'll make you sweat. One exercise plus 5 reps plus 3 ways, repeated for one minute. Put the mahi in, but listen to your body. Take breaks when you need, then jump back in when you're ready.</div>
+  </div>
+
+  <div class="rp-block">
+    <div class="rp-block-header light">
+      <div><div class="rp-block-title">Warm Up</div></div>
+      <div class="rp-col-label">Springs</div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-exercises">
+        <div class="rp-exercise"><span class="rp-exercise-name">Pilates Loop Hundreds</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Hip Bridge</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Window Wipers x Lift x Leg Extensions</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Leg Press</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">(R) SL Leg Press</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">(L) SL Leg Press</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">High Table Top Open &amp; Close</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Sumo Leg Press</span></div>
+      </div>
+      <div class="rp-spring-col">Med / Heavy</div>
+    </div>
+  </div>
+
+  <div class="rp-block">
+    <div class="rp-block-header">
+      <div><div class="rp-block-title">Flow 1</div><div class="rp-block-sub">5x Full Range / Mid Range / Plyo</div></div>
+      <div class="rp-col-label">Springs</div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-exercises">
+        <div class="rp-exercise"><span class="rp-exercise-name">Leg Press Forced Arch Parallel 2nd</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Leg Press Forced Arch Turned Out 2nd</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Loop Crunches | Loop Hundreds | Crunch Hold Narrow Plyo Jump</span></div>
+      </div>
+      <div class="rp-spring-col">Heavy</div>
+    </div>
+    <div class="rp-repeat"><div class="rp-repeat-dot"></div><div class="rp-repeat-text">Repeat</div></div>
+  </div>
+
+  <div class="rp-block">
+    <div class="rp-block-header">
+      <div><div class="rp-block-title">Flow 2</div><div class="rp-block-sub">5x Full Range / Mid Range / Plyo</div></div>
+      <div class="rp-col-label">Springs</div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-exercises">
+        <div class="rp-exercise"><span class="rp-exercise-name">FF Rear Standing Shoulder Post Low Row | Pulse | Catch &amp; Release</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">(R) SF Sumo Squat Hold Box Press | Pulse | Plyo</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">(R) RF Lunge Hold SA Press | Pulse | Plyo</span></div>
+      </div>
+      <div class="rp-spring-col">Light</div>
+    </div>
+    <div class="rp-repeat"><div class="rp-repeat-dot"></div><div class="rp-repeat-text">(L) Repeat</div></div>
+  </div>
+
+  <div class="rp-block">
+    <div class="rp-block-header">
+      <div><div class="rp-block-title">Flow 3</div><div class="rp-block-sub">5x Full Range / Mid Range / Plyo + Ball</div></div>
+      <div class="rp-col-label">Springs</div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-exercises">
+        <div class="rp-exercise"><span class="rp-exercise-name">(R) SF Sit to Stand | Mid Range Pulse | Jump &amp; Reach</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">(R) SF Angled Forearm V Sit | Top Leg Press | Pulse | Plyo Arm Reach</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">(R) RV Rear Leg Press | Pulse | Plyo</span></div>
+      </div>
+      <div class="rp-spring-col">Med / Heavy</div>
+    </div>
+    <div class="rp-repeat"><div class="rp-repeat-dot"></div><div class="rp-repeat-text">(L) Repeat</div></div>
+  </div>
+
+  <div class="rp-block">
+    <div class="rp-block-header">
+      <div><div class="rp-block-title">Flow 4</div><div class="rp-block-sub">Repeat Flow 1 — 5x Full Range / Mid Range / Plyo</div></div>
+      <div class="rp-col-label">Springs</div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-exercises">
+        <div class="rp-exercise"><span class="rp-exercise-name">Leg Press Forced Arch Parallel 2nd</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Leg Press Forced Arch Turned Out 2nd</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Loop Crunches | Loop Hundreds | Crunch Hold Narrow Plyo Jump</span></div>
+      </div>
+      <div class="rp-spring-col">Heavy</div>
+    </div>
+    <div class="rp-repeat"><div class="rp-repeat-dot"></div><div class="rp-repeat-text">Repeat</div></div>
+  </div>
+
+  <div class="rp-block">
+    <div class="rp-block-header light">
+      <div><div class="rp-block-title">Cool Down</div></div>
+      <div class="rp-col-label">Springs</div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-exercises">
+        <div class="rp-exercise"><span class="rp-exercise-name">RF Quad Stretch x Chest Expansion</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Rear Well Cat Cow</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Rear Well Thread the Needle</span></div>
+        <div class="rp-exercise"><span class="rp-exercise-name">Rear Well Pedalling Calf Stretch</span></div>
+      </div>
+      <div class="rp-spring-col">Med</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
